@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/kai/Documents/GitHub/Optimisation_and_Numerical_Analysis_Techniques/Parabolic_Eqs/Lecture3'
+relocations:     []
+...
