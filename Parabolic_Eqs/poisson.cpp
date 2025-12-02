@@ -16,7 +16,7 @@ int main() {
     double diag = 2.0 / (h * h);
     double off  = -1.0 / (h * h);
 
-    // (a) dense matrix with 2D indices: N x N
+    // (a) dense matrix 
     std::vector<std::vector<double>> dense(N, std::vector<double>(N, 0.0));
     for (int i = 0; i < N; ++i) {
         dense[i][i] = diag;
@@ -24,7 +24,7 @@ int main() {
         if (i < N - 1) dense[i][i + 1] = off;
     }
 
-    // (b) sparse coordinate (COO) format: three arrays (row, col, value)
+    // (b) sparse coordinate 
     std::vector<int>    coo_row;
     std::vector<int>    coo_col;
     std::vector<double> coo_val;
@@ -51,14 +51,14 @@ int main() {
         }
     }
 
-    // (c) CSR format: row_ptr, col_ind, values
+    // (c) CSR format
     int nnz = (N == 1) ? 1 : (3 * N - 2);
-    std::vector<int>    csr_row_ptr(N + 1);
+    std::vector<int>    csr_row(N + 1);
     std::vector<int>    csr_col_ind(nnz);
     std::vector<double> csr_val(nnz);
 
     int k = 0;
-    csr_row_ptr[0] = 0;
+    csr_row[0] = 0;
     for (int i = 0; i < N; ++i) {
         if (i > 0) {                 // left off-diagonal
             csr_col_ind[k] = i - 1;
@@ -73,10 +73,10 @@ int main() {
             csr_val[k]     = off;
             ++k;
         }
-        csr_row_ptr[i + 1] = k;
+        csr_row[i + 1] = k;
     }
 
-    // --- Optional: print results for checking ---
+    // print results
 
     std::cout << "\nDense matrix L_h:\n";
     for (int i = 0; i < N; ++i) {
@@ -92,7 +92,7 @@ int main() {
     }
 
     std::cout << "\nCSR format:\nrow_ptr: ";
-    for (int x : csr_row_ptr) std::cout << x << " ";
+    for (int x : csr_row) std::cout << x << " ";
     std::cout << "\ncol_ind: ";
     for (int x : csr_col_ind) std::cout << x << " ";
     std::cout << "\nvalues:  ";
