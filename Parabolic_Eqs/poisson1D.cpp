@@ -4,17 +4,13 @@
 
 int main() {
     int N;
-    std::cout << "Number of interior nodes N: ";
+    std::cout << "Input dimension N: ";
     std::cin >> N;
 
-    if (N <= 0) {
-        std::cerr << "N must be positive.\n";
-        return 1;
-    }
 
-    double h = 1.0 / (N + 1.0);
-    double diag = 2.0 / (h * h);
-    double off  = -1.0 / (h * h);
+    //double h = 1.0 / (N + 1.0);
+    double diag = 2.0 ;
+    double off  = -1.0 ;
 
     // (a) dense matrix 
     std::vector<std::vector<double>> dense(N, std::vector<double>(N, 0.0));
@@ -52,7 +48,7 @@ int main() {
     }
 
     // (c) CSR format
-    int nnz = (N == 1) ? 1 : (3 * N - 2);
+    int nnz = 3 * N - 2;
     std::vector<int>    csr_row(N + 1);
     std::vector<int>    csr_col_ind(nnz);
     std::vector<double> csr_val(nnz);
