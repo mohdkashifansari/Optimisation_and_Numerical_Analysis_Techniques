@@ -27,7 +27,7 @@ void bfs(const std::vector<std::vector<double> > &A, std::vector<size_t> &orderi
     Q.pop();
   }
   if (ordering.size() < n) {
-    // What can we say about the graph/matrix in this situation?
+    std::cout << "The underlying graph is not connected." << std::endl;
   }
 }
 

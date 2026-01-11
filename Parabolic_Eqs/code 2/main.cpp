@@ -5,7 +5,7 @@
 #include "matrix_assembly.h"
 #include "cuthill_mckee.h"
 #include "bfs.h"
-#include "symmetric_permutation.h"
+#include "symmetricPermutation16.h"
 #include "nnz.h"
 
 void print(std::vector<size_t>& v) {
@@ -16,25 +16,31 @@ void print(std::vector<size_t>& v) {
 }
 
 void print(std::vector<std::vector<double> >& A) {
-  for (std::vector<std::vector<double> >::iterator i = A.begin(); i != A.end(); ++i) {
-    for (std::vector<double>::iterator j = i->begin(); j != i->end(); ++j) {
-      std::cout << std::fixed << std::setprecision(4) << std::right << std::setw(7) << std::setfill(' ') << *j << " ";
+    int n = A.size();
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            std::cout << A[i][j] << " ";
+        }
+        std::cout << std::endl;
     }
-    std::cout << std::endl;
-  }
 }
+
 
 int main() {
   size_t n;
   std::cout << "Input dimension: ";
   std::cin >> n;
   std::vector<std::vector<double> > A(n, std::vector<double>(n));
-  assembleA(A);
+  //assembleA(A);
 
   std::cout << "nnz = " << countNNZ(A) << std::endl;
 
   std::vector<size_t> permutation(n);
   bfs(A, permutation, n-1);
+
+  std::cout << "BFS permutation:" << std::endl;
+  print(permutation);
 
   // symmetricPermutation(A, permutation);
 
@@ -42,12 +48,12 @@ int main() {
 
   // print(A);
 
-  std::vector<size_t> p(n);
-  for (size_t i = 0; i < n; i++) p[i] = i;
+  //std::vector<size_t> p(n);
+  //for (size_t i = 0; i < n; i++) p[i] = i;
 
-  luDecomposition(A, p);
+  //luDecomposition(A, p);
 
-  std::cout << "nnz = " << countNNZ(A) << std::endl;
+  //std::cout << "nnz = " << countNNZ(A) << std::endl;
 
   // print(A);
 

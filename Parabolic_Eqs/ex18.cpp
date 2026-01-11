@@ -1,10 +1,8 @@
 #include <iostream>
 #include <vector>
 
-// Include the BFS header
 #include "bfs.h"
 
-// Helper function to print a vector
 void printOrdering(const std::vector<size_t> &ordering)
 {
     for (size_t v : ordering) {
@@ -15,13 +13,12 @@ void printOrdering(const std::vector<size_t> &ordering)
 
 int main()
 {
-    // Example symmetric matrix (graph)
     std::vector<std::vector<double>> A = {
         {1, 1, 0, 0, 0},
         {1, 1, 1, 0, 0},
         {0, 1, 1, 1, 0},
         {0, 0, 1, 1, 0},
-        {0, 0, 0, 0, 1} // disconnected node
+        {0, 0, 0, 0, 1} 
     };
 
     std::vector<size_t> ordering;
