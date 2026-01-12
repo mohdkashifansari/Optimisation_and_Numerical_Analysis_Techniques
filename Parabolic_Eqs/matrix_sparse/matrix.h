@@ -41,6 +41,8 @@ class SparseMatrix : public Matrix {
   double& at(size_t i, size_t j);
   size_t nnz();
   std::vector<double> operator*(const std::vector<double>& x);
+  std::vector<double> dot(const std::vector<double>& v);
+
   void reserve(size_t);
   void clear();
 

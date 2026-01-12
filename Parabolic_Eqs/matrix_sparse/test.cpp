@@ -14,8 +14,21 @@ int main() {
   B(1, 1) = 2.0 + B(1, 1);
   B.print();
 
-  assembleLh(B, 3);
-  B.print();
+  SparseMatrix C(2, 2, 4);
+  assembleLh(C, 3);
+  C.print();
 
-  std::cout << B.nnz() << std::endl;
+  std::cout << C.nnz() << std::endl;
+
+  std::cout << "\nproduct test\n";
+
+  std::vector<double> x(B.get_ncols(), 1.0);
+
+  std::vector<double> y = B * x;
+
+  for (size_t i = 0; i < y.size(); ++i)
+  std::cout << y[i] << " ";
+
+  std::cout << std::endl;
+
 }

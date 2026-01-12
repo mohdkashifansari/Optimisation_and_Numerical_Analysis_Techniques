@@ -67,11 +67,11 @@ double& SparseMatrix::at(size_t i, size_t j) {
 
 size_t SparseMatrix::nnz() { return A.size(); }
 
-std::vector<double> SparseMatrix::operator*(const std::vector<double>& x) {
+std::vector<double> SparseMatrix::operator*(const std::vector<double>& v) {
   SparseMatrix& M = *this;
 
   std::vector<double> y(nrows);
-  for (size_t i = 0; i < M.A.size(); i++) y[I[i]] += M.A[i] * x[J[i]];
+  for (size_t i = 0; i < M.A.size(); i++) y[I[i]] += M.A[i] * v[J[i]];
 
   return y;
 }
