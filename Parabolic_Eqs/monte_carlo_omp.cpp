@@ -21,29 +21,36 @@ int main(int argc, char** argv) {
   // Exact volume of the d-dimensional unit ball
   const double exact_vol = pow(M_PI, 0.5 * d) / tgamma(0.5 * d + 1.0);
 
-  std::mt19937_64 mt(time(0));
-  std::minstd_rand lcg(time(0));
+  size_t T = omp_get_max_threads();
+  if (N%T != 0) exit(1);
+  std::vector<std::minstd_rand> LCGs(T);
   std::uniform_real_distribution<double> distribution(-1.0, 1.0);
 
-  size_t hit = 0;
   double box_vol = 2.0;
   for (size_t i = 0; i < d - 1; i++) box_vol *= 2.0;
-  double t1 = omp_get_wtime();
-  for (size_t i = 0; i < N; i++) {
-    double norm = 0.0;
-    for (size_t j = 0; j < d; j++) {
-      const double x = distribution(mt);
-      norm += x * x;
+
+  std::vector<size_t> hit(T);
+
+  #pragma omp parallel num_threads(T)
+  {
+    size_t t = omp_get_thread_num();
+    LCGs[t].seed(1337);
+    LCGs[t].discard(t*N/T);
+    for (size_t i = 0; i < N/T; i++) {
+      double norm = 0.0;
+      for (size_t j = 0; j < d; j++) {
+        const double x = distribution(LCGs[t]);
+        norm += x * x;
+      }
+      if (norm <= 1.0) hit[t]++;
     }
-    if (norm <= 1.0) hit++;
-    if (i % 100000 == 0)
-      std::cout << i << ";" << std::abs(box_vol * (double)hit / (double)i - exact_vol)
-                << std::endl;
   }
-  double t2 = omp_get_wtime();
-  std::cout << "Monte Carlo volume = " << (box_vol * hit) / N << std::endl;
+  for (size_t i=1; i<T; ++i) {
+    hit[0] += hit[i];
+  }
+
+  std::cout << "Monte Carlo volume = " << (box_vol * hit[0]) / N << std::endl;
   std::cout << "Volume             = " << exact_vol << std::endl;
-  std::cout << "Time taken         = " << (t2 - t1) << " seconds" << std::endl;
 
   return 0;
 }
