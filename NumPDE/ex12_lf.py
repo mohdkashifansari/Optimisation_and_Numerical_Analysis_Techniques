@@ -2,7 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
-# domain and parameters
 a, b = -2, 2
 dx = 0.02
 dt = 0.01
@@ -10,11 +9,9 @@ T_e = 2
 
 x = np.arange(a, b + dx, dx)
 
-# initial condition
 def u0(x):
     return np.where((x >= -1) & (x <= 1), -1.0, 0.0)
 
-# exact solution (shock + rarefaction)
 def u_exact(x, t):
     u = np.zeros_like(x)
 
@@ -33,11 +30,9 @@ def u_exact(x, t):
 
     return u
 
-# initialize
 u = u0(x)
 t = 0
 
-# plotting
 fig, ax = plt.subplots(figsize=(8, 4))
 line_num, = ax.plot(x, u, label="Lax-Friedrichs")
 line_exact, = ax.plot(x, u, '--', label="Exact")
@@ -51,7 +46,6 @@ ax.grid()
 
 time_text = ax.text(0.02, 0.9, '', transform=ax.transAxes)
 
-# LF update
 def update(frame):
     global u, t
 
